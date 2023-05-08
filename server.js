@@ -7,7 +7,7 @@ const app = express();
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
-const ip = "172.18.70.62";
+const ip = "172.18.70.193";
 
 app.use('/api/sucursales', Sucursal);
 app.use(
