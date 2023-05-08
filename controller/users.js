@@ -1,66 +1,68 @@
 const mongoose = require('mongoose');
 const User = require('../models/user');
 const findAllUsers = (req, res) => {
-    User.find().then((users) => { 
+    User.find().then((users) => {
         // console.log('Users FindAll Succes');
         res.status(200).json(users);
     },
-    err => { 
-        // console.log('Users FindAll Error');
-        err && res.status(500).send(err.message);
-    });
+        err => {
+            // console.log('Users FindAll Error');
+            err && res.status(500).send(err.message);
+        });
 };
 const findById = (req, res) => {
-  console.log(req.params);
-  User.findById(req.params.id).then((user) => {
-      res.status(200).json(user);
-  },
-  err => {
-      err && res.status(500).send(err.message);
-  });
+    console.log(req.params);
+    User.findById(req.params.id).then((user) => {
+        res.status(200).json(user);
+    },
+        err => {
+            err && res.status(500).send(err.message);
+        });
 };
 const addUser = (req, res) => {
-  let user = new User({
-      name: req.body.name,
-      username: req.body.username,
-      password: req.body.password,
-      latestLatitude : req.body.latestLatitude,
-      latestLongitude : req.body.latestLongitude
-  });
-  user.save().then((usr) => {
-      res.status(200).json(usr);
-  },
-  err => {
-      err && res.status(500).send(err.message);
-  });
+    let user = new User({
+        name: req.body.name,
+        username: req.body.username,
+        password: req.body.password,
+        latestLatitude: req.body.latestLatitude,
+        latestLongitude: req.body.latestLongitude
+    });
+    user.save().then((usr) => {
+        res.status(200).json(usr);
+    },
+        err => {
+            err && res.status(500).send(err.message);
+        });
 };
 const updateUserLocation = (req, res) => {
-  console.log(req.body);
-  User.updateOne({_id:req.body.id}, 
-  {latestLaltitude:req.body.latestLaltitude, 
-      latestLongitude: req.body.latestLongitude}).then((usr) =>{
-          res.status(200).json(usr);
-      },
-      err => {
-          err && res.status(500).send(err.message);
-  });
+    console.log(req.body);
+    User.updateOne({ _id: req.body.id },
+        {
+            latestLaltitude: req.body.latestLaltitude,
+            latestLongitude: req.body.latestLongitude
+        }).then((usr) => {
+            res.status(200).json(usr);
+        },
+            err => {
+                err && res.status(500).send(err.message);
+            });
 }
 const findByUsername = (req, res) => {
     console.log(req.params.username);
-    User.find({username:req.params.username}).then((user) => {
+    User.find({ username: req.params.username }).then((user) => {
         res.status(200).json(user);
     },
-    err => {
-        err && res.status(500).send(err.message);
-    });
+        err => {
+            err && res.status(500).send(err.message);
+        });
 };
 
-const findAllGeoUsers =(req,res) => {
+const findAllGeoUsers = (req, res) => {
     User.find().then((users) => {
         //console.log
-        var geoUsers = {type: "FeatureCollection", "features": []};
-        users.map(item=>{
-            
+        var geoUsers = { type: "FeatureCollection", "features": [] };
+        users.map(item => {
+
             console.log(item);
             geoUsers.features.push(
                 {
@@ -75,13 +77,13 @@ const findAllGeoUsers =(req,res) => {
                     },
                     id: item._id
                 }
-        );
+            );
         });
         res.status(200).json(geoUsers);
     },
-    err => {
-        err && res.status(500).send(err.message);
-    });
+        err => {
+            err && res.status(500).send(err.message);
+        });
 }
 
-module.exports = { findAllUsers, findById, addUser, updateUserLocation,findByUsername, findAllGeoUsers };
+module.exports = { findAllUsers, findById, addUser, updateUserLocation, findByUsername, findAllGeoUsers };
