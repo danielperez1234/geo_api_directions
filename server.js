@@ -1,7 +1,7 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
-const User =require('./api/users');
+const Sucursal =require('./api/sucursales');
 const cors = require('cors');
 const app = express();
 app.use(bodyParser.urlencoded({ extended: false}));
@@ -9,7 +9,7 @@ app.use(bodyParser.json());
 
 const ip = "172.18.70.62";
 
-app.use('/api/users', User);
+app.use('/api/sucursales', Sucursal);
 app.use(
   (req, res, next) => {
     res.header("Access-Control-Allow-Origin", '*');
