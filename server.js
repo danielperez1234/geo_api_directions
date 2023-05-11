@@ -12,7 +12,29 @@ app.use(bodyParser.urlencoded({ extended: false }));
 //*Analiza las solicitudes con datos en formato JSON
 app.use(bodyParser.json());
 
-const ip = "192.168.0.5";
+
+var fs = require('fs');
+var https = require('https');
+var privateKey  = fs.readFileSync('./sslcerts/selfsigned.pkey', 'utf8');
+var certificate = fs.readFileSync('./sslcerts/selfsigned.cer', 'utf8');
+var credentials = {key: privateKey, cert: certificate};
+
+
+app.use(cors());
+
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json());
+
+
+app.use('/api/sucursales', Sucursal);
+
+var httpsServer = https.createServer(credentials, app);
+
+const ip = "192.168.100.18"; //cambiar IP
+
+const corsOptions = {
+  origin: "http://192.168.100.18:4000",
+};
 
 /*Monta las rutas y controladores reacionados con las 
 sucursales en la ruta base*/
@@ -25,6 +47,9 @@ app.use(
     next();
   }
 )
+
+app.use(cors(corsOptions));
+
 mongoose.connect(
   "mongodb://127.0.0.1:27017",
   { useNewUrlParser: true }
