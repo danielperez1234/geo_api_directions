@@ -25,10 +25,10 @@ app.use('/api/sucursales', Sucursal);
 
 var httpsServer = https.createServer(credentials, app);
 
-const ip = "192.168.100.18"; //cambiar IP
+const ip = "172.18.70.100"; //cambiar IP
 
 const corsOptions = {
-  origin: "http://192.168.100.18:4000",
+  origin: "http://172.18.70.100:4000",
 };
 
 app.use('/api/sucursales', Sucursal);
