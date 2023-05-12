@@ -32,8 +32,7 @@ const findAllSucursales = (req, res) => {
                     id: sucur._id,
                     geometry: {
                         type: "Point",
-                        latitude: sucur.latitude,
-                        longitude: sucur.longitude
+                        coordinates: [sucur.latitude,sucur.longitude]
                     },
                     properties:{
                         name: sucur.name,
