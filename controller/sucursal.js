@@ -25,7 +25,24 @@ const addSucursal = (req, res) => {
 
 const findAllSucursales = (req, res) => {
     Sucursal.find().then(sucursales => {
-        res.status(200).json(sucursales);
+        
+        var x =sucursales.map(
+            sucur => {
+                return {
+                    id: sucur._id,
+                    geometry: {
+                        type: "Point",
+                        latitude: sucur.latitude,
+                        longitude: sucur.longitude
+                    },
+                    properties:{
+                        name: sucur.name,
+                        manager_name: sucur.manager_name
+                    }
+                }
+            }
+        )
+        res.status(200).json(x);
     },
         err => {
             err && res.status(500).send(err.message)
